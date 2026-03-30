@@ -146,3 +146,7 @@ Accept: application/json
 ![Login](https://i.postimg.cc/W3HmDy1s/Screenshot-2026-03-30-at-1-57-09-AM.png)
 ![Create Project](https://i.postimg.cc/cHb7KzLZ/Screenshot-2026-03-30-at-2-27-30-AM.png)
 ![Create Task](https://i.postimg.cc/XJzKZPYN/Screenshot-2026-03-30-at-2-49-42-AM.png)
+
+![Register](https://i.postimg.cc/fbtY5zLq/Screenshot-2026-03-30-at-11-36-23-AM.png)
+![Login](https://i.postimg.cc/vcvtsXJt/Screenshot-2026-03-30-at-11-33-17-AM.png)
+![Dashboard](https://i.postimg.cc/6q0WCZNJ/Screenshot-2026-03-30-at-11-30-40-AM.png)

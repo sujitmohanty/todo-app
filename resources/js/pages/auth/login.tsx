@@ -66,7 +66,7 @@ export default function Login({
                                             autoFocus
                                             tabIndex={1}
                                             autoComplete="email"
-                                            placeholder="john@example.com"
+                                            placeholder="sujit@apollo.com"
                                             className="h-11"
                                         />
                                         <InputError
@@ -101,7 +101,7 @@ export default function Login({
                                             required
                                             tabIndex={2}
                                             autoComplete="current-password"
-                                            placeholder="Enter your password"
+                                            placeholder="12345678"
                                             className="h-11"
                                         />
                                         <InputError

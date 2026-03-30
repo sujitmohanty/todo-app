@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -9,9 +10,13 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+   public function index(Request $request)
     {
-        //
+        return response()->json(
+            Project::where('user_id', $request->user()->id)
+                ->latest()
+                ->get()
+        );
     }
 
     /**
@@ -19,7 +24,16 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+        ]);
+
+        $project = Project::create([
+            'user_id' => $request->user()->id,
+            'name' => $validated['name'],
+        ]);
+
+        return response()->json($project, 201);
     }
 
     /**

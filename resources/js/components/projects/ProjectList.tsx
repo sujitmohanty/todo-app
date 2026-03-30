@@ -1,6 +1,6 @@
 type Project = {
     id: number;
-    title: string;
+    name: string;
 };
 
 type ProjectListProps = {
@@ -30,7 +30,7 @@ export default function ProjectList({
                             : 'bg-gray-50'
                     }`}
                 >
-                    {project.title}
+                    {project.name}
                 </button>
             ))}
         </div>

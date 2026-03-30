@@ -9,5 +9,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
+Route::redirect('/', '/login');
 
 require __DIR__.'/settings.php';

@@ -1,56 +1,48 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ProjectForm from '@/components/projects/ProjectForm';
 import ProjectList from '@/components/projects/ProjectList';
+import TaskForm from '@/components/tasks/TaskForm';
+import TaskList from '@/components/tasks/TaskList';
+import { useProjects } from '@/hooks/useProjects';
+import { useTasks } from '@/hooks/useTasks';
 import AppLayout from '@/layouts/app-layout';
-import api from '@/lib/api';
-
-type Project = {
-    id: number;
-    title: string;
-};
 
 export default function Dashboard() {
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [selectedProject, setSelectedProject] = useState<Project | null>(
-        null,
-    );
     const [projectTitle, setProjectTitle] = useState('');
-    const [error, setError] = useState('');
+    const [taskTitle, setTaskTitle] = useState('');
 
-    async function fetchProjects() {
-        try {
-            const res = await api.get('/projects');
-            setProjects(res.data);
+    const {
+        projects,
+        selectedProject,
+        setSelectedProject,
+        error: projectError,
+        addProject,
+    } = useProjects();
 
-            if (res.data.length > 0) {
-                setSelectedProject(res.data[0]);
-            }
-        } catch {
-            setError('Could not fetch projects');
-        }
-    }
+    const { tasks, error: taskError, addTask } = useTasks(selectedProject?.id);
 
-    useEffect(() => {
-        fetchProjects();
-    }, []);
+    const error = projectError || taskError;
 
     async function handleCreateProject(e: React.FormEvent) {
         e.preventDefault();
 
         if (!projectTitle.trim()) return;
 
-        try {
-            const res = await api.post('/projects', {
-                title: projectTitle,
-            });
+        const created = await addProject(projectTitle);
 
-            const newProject = res.data;
-            setProjects((prev) => [newProject, ...prev]);
-            setSelectedProject(newProject);
+        if (created) {
             setProjectTitle('');
-            setError('');
-        } catch {
-            setError('Could not create project');
+        }
+    }
+
+    async function handleCreateTask(e: React.FormEvent) {
+        e.preventDefault();
+
+        if (!taskTitle.trim()) return;
+
+        const created = await addTask(taskTitle);
+        if (created) {
+            setTaskTitle('');
         }
     }
 
@@ -65,20 +57,41 @@ export default function Dashboard() {
                     </div>
                 )}
 
-                <div className="mt-6 rounded-xl border bg-white p-4">
-                    <h2 className="text-lg font-medium">Projects</h2>
+                <div className="mt-6 grid gap-6 md:grid-cols-2">
+                    <section className="rounded-xl border bg-white p-4">
+                        <h2 className="text-lg font-medium">Projects</h2>
 
-                    <ProjectForm
-                        projectTitle={projectTitle}
-                        setProjectTitle={setProjectTitle}
-                        onSubmit={handleCreateProject}
-                    />
+                        <ProjectForm
+                            projectTitle={projectTitle}
+                            setProjectTitle={setProjectTitle}
+                            onSubmit={handleCreateProject}
+                        />
 
-                    <ProjectList
-                        projects={projects}
-                        selectedProject={selectedProject}
-                        onSelectProject={setSelectedProject}
-                    />
+                        <ProjectList
+                            projects={projects}
+                            selectedProject={selectedProject}
+                            onSelectProject={setSelectedProject}
+                        />
+                    </section>
+
+                    <section className="rounded-xl border bg-white p-4">
+                        <h2 className="text-lg font-medium">
+                            {selectedProject
+                                ? `Tasks for "${selectedProject.name}"`
+                                : 'Tasks'}
+                        </h2>
+
+                        <TaskForm
+                            taskTitle={taskTitle}
+                            setTaskTitle={setTaskTitle}
+                            onSubmit={handleCreateTask}
+                        />
+
+                        <TaskList
+                            tasks={tasks}
+                            selectedProjectTitle={selectedProject?.name}
+                        />
+                    </section>
                 </div>
             </div>
         </AppLayout>

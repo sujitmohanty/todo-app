@@ -28,8 +28,7 @@ It provides user authentication and project-task management with secure access c
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/todo-api.git
-cd todo-api
+git clone https://github.com/sujitmohanty/todo-app.git
 ```
 
 ### 2. Install dependencies
@@ -45,7 +44,7 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-Update `.env` with your database credentials.
+Update `.env` with database credentials.
 
 ---
 
@@ -67,28 +66,6 @@ API will be available at:
 
 ```
 http://127.0.0.1:8000/api
-```
-
----
-
-## 🔐 Authentication
-
-This API uses **Bearer Token Authentication (Sanctum)**.
-
-After login or registration:
-
-```json
-{
-  "user": {...},
-  "token": "1|abc123..."
-}
-```
-
-Use the token in requests:
-
-```
-Authorization: Bearer YOUR_TOKEN
-Accept: application/json
 ```
 
 ---
